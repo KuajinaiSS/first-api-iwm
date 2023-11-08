@@ -69,8 +69,31 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
+        try{
+            DB::beginTransaction();
+            // valdiar
+            $fields=$request->validate([
+                'name'=>'required',
+                'date'=>'nullable',
+                'symptoms'=>'nullable',
+                'user_id'=>'required'
+            ]);
+
+            // actualizar
+            $appointment->update([
+                'name'=>$fields['name'],
+                'date'=>$fields['date'],
+                'symptoms'=>$fields['symptoms'],
+                'user_id'=>$fields['user_id']
+            ]);
+            DB::commit();
+            return response()->json($appointment);
+        }catch (\Exception $e){
+            DB::rollBack();
+            throw new \Exception($e->getMessage());
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
