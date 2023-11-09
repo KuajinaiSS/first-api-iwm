@@ -18,3 +18,4 @@ Route::get('appointments', [\App\Http\Controllers\AppointmentController::class,'
 Route::post('appointments',[\App\Http\Controllers\AppointmentController::class,'store']);
 Route::delete('appointments/{appointment}',[\App\Http\Controllers\AppointmentController::class,'destroy']);
 Route::get('appointments/{appointment}',[\App\Http\Controllers\AppointmentController::class,'show']);
+Route::put('appointments/{appointment}',[\App\Http\Controllers\AppointmentController::class,'update']);

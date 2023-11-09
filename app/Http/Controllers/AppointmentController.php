@@ -73,21 +73,21 @@ class AppointmentController extends Controller
             DB::beginTransaction();
             // valdiar
             $fields=$request->validate([
-                'name'=>'required',
+                'name'=>'nullable',
                 'date'=>'nullable',
                 'symptoms'=>'nullable',
-                'user_id'=>'required'
+                'user_id'=>'nullable'
             ]);
 
             // actualizar
             $appointment->update([
-                'name'=>$fields['name'],
-                'date'=>$fields['date'],
-                'symptoms'=>$fields['symptoms'],
-                'user_id'=>$fields['user_id']
+                'name'=>$fields['name']??$appointment->name,
+                'date'=>$fields['date']??$appointment->date,
+                'symptoms'=>$fields['symptoms']??$appointment->symptoms,
+                'user_id'=>$fields['user_id']??$appointment->user_id
             ]);
             DB::commit();
-            return response()->json($appointment);
+            return response()->json($appointment,200);
         }catch (\Exception $e){
             DB::rollBack();
             throw new \Exception($e->getMessage());
